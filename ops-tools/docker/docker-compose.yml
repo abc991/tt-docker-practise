@@ -1,0 +1,38 @@
+version: '3'
+services:
+  adonis:
+    build: 
+      context: ../../../tt-docker-practise/
+      dockerfile: ./ops-tools/docker/images/app/Dockerfile
+    command: npm start dev:watch
+    ports:
+      - "8888:8080"
+    environment:
+      - DB_CONNECTION=pg
+      - DB_HOST=127.0.0.1
+      - DB_PORT=5432
+      - REDIS_HOST=redis
+  redis:
+    image: redis:6
+    ports:
+      - 6379:6379
+    networks:
+      - docker-practice-net
+  postgres:
+    image: postgres:13
+    ports:
+       - 5432:5432
+    environment:
+      POSTGRES_USER: ​postgres​
+      POSTGRES_PASSWORD: ​school
+      POSTGRES_DB: ​school
+    volumes:
+     - .:/data/postgres
+     - ./db-dump:/Users/edit1/Documents/myJava/thumbtack_online_school_2019_2_elena_shchekina/docker_practice/tt-docker-practise/data/dump
+    networks:
+      - docker-practice-net
+networks:
+  docker-practice-net:
+volumes:
+  docker_practice:
+  
